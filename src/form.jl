@@ -3,7 +3,7 @@
 
 abstract FormPrimitive
 
-const empty_tag = symbol("")
+const empty_tag = Symbol("")
 
 immutable Form{P <: FormPrimitive} <: ComposeNode
     primitives::Vector{P}
@@ -1125,7 +1125,7 @@ const path_ops = @compat Dict(
 )
 
 
-# A path is an array of symbols, numbers, and measures following SVGs path
+# A path is an array of Symbols, numbers, and measures following SVGs path
 # mini-language.
 function parsepath(tokens::AbstractArray)
     ops = PathOp[]

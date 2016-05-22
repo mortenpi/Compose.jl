@@ -53,7 +53,7 @@ let available_font_families = Set{AbstractString}()
         family = Fontconfig.format(match(Fontconfig.Pattern(family=family)), "%{family}")
         desc = @sprintf("%s %fpx", family, size)
         fd = ccall((:pango_font_description_from_string, libpango),
-                   Ptr{Void}, (Ptr{UInt8},), bytestring(desc))
+                   Ptr{Void}, (Ptr{UInt8},), string(desc))
         return fd
     end
 end
@@ -90,7 +90,7 @@ end
 #   A (width, height) tuple in absolute units.
 #
 function pango_text_extents(pangolayout::PangoLayout, text::AbstractString)
-    textarray = convert(Vector{UInt8}, bytestring(text))
+    textarray = convert(Vector{UInt8}, string(text))
     ccall((:pango_layout_set_markup, libpango),
           Void, (Ptr{Void}, Ptr{UInt8}, Int32),
           pangolayout.layout, textarray, length(textarray))
@@ -367,7 +367,7 @@ function pango_to_svg(text::AbstractString)
     ret = ccall((:pango_parse_markup, libpango),
                 Int32, (Ptr{UInt8}, Int32, UInt32, Ptr{Ptr{Void}},
                         Ptr{Ptr{UInt8}}, Ptr{UInt32}, Ptr{Void}),
-                bytestring(text), -1, 0, c_attr_list, c_stripped_text,
+                string(text), -1, 0, c_attr_list, c_stripped_text,
                 C_NULL, C_NULL)
 
     if ret == 0
@@ -378,7 +378,7 @@ function pango_to_svg(text::AbstractString)
 
     bytearray =  str -> convert(Array{UInt8, 1}, str)
 
-    text = bytearray(bytestring(c_stripped_text[1]))
+    text = bytearray(string(c_stripped_text[1]))
 
     last_idx = 1
     open_tag = false

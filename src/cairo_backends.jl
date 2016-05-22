@@ -531,7 +531,7 @@ function apply_property(img::Image, property::FontSizePrimitive)
     else
         family = ccall((:pango_font_description_get_family, Cairo._jl_libpango),
                        Ptr{UInt8}, (Ptr{Void},), font_desc)
-        family = bytestring(family)
+        family = string(family)
     end
 
     Cairo.set_font_face(img.ctx,

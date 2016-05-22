@@ -3,8 +3,8 @@
 # Define this even if we're not calling pango, since cairo needs it.
 const PANGO_SCALE = 1024.0
 
-# Handle deprecation of readall, replacement with readstring
-isdefined(:readstring) || (readstring = readall)
+# Handle deprecation of readstring, replacement with readstring
+isdefined(:readstring) || (readstring = readstring)
 
 # Serialized glyph sizes for commont fonts.
 const glyphsizes = open(fd -> JSON.parse(readstring(fd)),
@@ -203,6 +203,6 @@ function pango_to_svg(text::AbstractString)
     if open_tag
         write(output, "</tspan>")
     end
-    bytestring(output)
+    string(output)
 end
 
